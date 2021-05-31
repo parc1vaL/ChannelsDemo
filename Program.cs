@@ -14,7 +14,7 @@ namespace Channels
                 FullMode = BoundedChannelFullMode.Wait, // Default-Verhalten: Warten, bis Kapazität frei ist
                 // FullMode = BoundedChannelFullMode.DropNewest, // Entferne das neueste (hinterste) Element des Channels, um Platz für das neu hinzu zu fügende Element zu schaffen
                 // FullMode = BoundedChannelFullMode.DropOldest, // Entferne das älteste (vorderste) Element des Channels, um Platz für das neu hinzu zu fügende Element zu schaffen
-                // FullMode = BoundedChannelFullMode.DropWrite, // Ignoriere ("droppe") das neu hinzu kommende Element
+                // FullMode = BoundedChannelFullMode.DropWrite, // Verwirf das neu hinzu kommende Element
             };
 
             var channel = Channel.CreateBounded<int>(channelOptions);
