@@ -21,7 +21,7 @@ namespace Channels
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken = default)
         {
-            await foreach (var job in this.jobQueue.Reader.ReadAllAsync().WithCancellation(stoppingToken))
+            await foreach (var job in this.jobQueue.ReadAllAsync().WithCancellation(stoppingToken))
             {
                 // handle job - example
                 this.logger.LogInformation("Executing job {Job}.", job);

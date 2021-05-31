@@ -17,7 +17,7 @@ namespace Channels
 
         public void ScheduleJob(int job)
         {
-            if (this.jobQueue.Writer.TryWrite(job))
+            if (this.jobQueue.TryWrite(job))
             {
                 this.logger.LogInformation("Job {Job} successfully scheduled.", job);
             }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Channels;
 
 namespace Channels
@@ -20,8 +22,8 @@ namespace Channels
             this.channel = Channel.CreateBounded<int>(channelOptions);
         }
 
-        public ChannelReader<int> Reader => this.channel.Reader;
+        public bool TryWrite(int job) => this.channel.Writer.TryWrite(job);
 
-        public ChannelWriter<int> Writer => this.channel.Writer;
+        public IAsyncEnumerable<int> ReadAllAsync() => this.channel.Reader.ReadAllAsync();
     }
 }
