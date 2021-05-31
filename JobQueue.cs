@@ -14,12 +14,7 @@ namespace Channels
 
         public JobQueue()
         {
-            var channelOptions = new BoundedChannelOptions(Capacity)
-            {
-                FullMode = BoundedChannelFullMode.DropWrite,
-            };
-
-            this.channel = Channel.CreateBounded<int>(channelOptions);
+            this.channel = Channel.CreateBounded<int>(Capacity);
         }
 
         public bool TryWrite(int job) => this.channel.Writer.TryWrite(job);
