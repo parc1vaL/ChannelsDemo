@@ -11,15 +11,18 @@ namespace Channels
         {
             var channel = Channel.CreateUnbounded<int>();
 
-            for (int i = 1; i <= 10; i++)
+            Task.Run(async () =>
             {
-                await channel.Writer.WriteAsync(i);
-            }
+                for (int i = 1; i <= 10; i++)
+                {
+                    await channel.Writer.WriteAsync(i);
+                    await Task.Delay(1000);
+                }
+            });
 
             while (true)
             {
                 var item = await channel.Reader.ReadAsync();
-
                 Console.WriteLine(item);
             }
         }
