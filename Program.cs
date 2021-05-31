@@ -16,9 +16,11 @@ namespace Channels
                 for (int i = 1; i <= 10; i++)
                 {
                     await channel.Writer.WriteAsync(i);
+                    await Task.Delay(500);
                 }
 
                 channel.Writer.Complete();
+                // Console.WriteLine("Channel marked complete");
             });
 
             try
@@ -34,6 +36,9 @@ namespace Channels
             {
                 Console.WriteLine("Channel was closed!");
             }
+
+            // await channel.Writer.WriteAsync(100); // -> ChannelClosedException
+            // channel.Writer.Complete(); // -> ChannelClosedException
         }
     }
 }
