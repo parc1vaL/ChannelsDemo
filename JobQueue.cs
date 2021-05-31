@@ -6,11 +6,18 @@ namespace Channels
     // Register as Singleton
     public class JobQueue
     {
+        private const int Capacity = 250;
+
         private readonly Channel<int> channel;
 
         public JobQueue()
         {
-            this.channel = Channel.CreateUnbounded<int>();
+            var channelOptions = new BoundedChannelOptions(Capacity)
+            {
+                FullMode = BoundedChannelFullMode.DropWrite,
+            };
+
+            this.channel = Channel.CreateBounded<int>(channelOptions);
         }
 
         public ChannelReader<int> Reader => this.channel.Reader;
