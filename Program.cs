@@ -35,6 +35,8 @@ namespace Channels
                 channel.Writer.Complete();
             });
 
+            await Task.Delay(5000);
+
             await foreach (var item in channel.Reader.ReadAllAsync())
             {
                 Console.WriteLine($"OUT: {item}");
