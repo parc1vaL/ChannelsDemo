@@ -11,7 +11,7 @@ namespace Channels
         {
             var channel = Channel.CreateUnbounded<int>();
 
-            Task.Run(async () =>
+            _ = Task.Run(async () =>
             {
                 for (int i = 1; i <= 10; i++)
                 {
