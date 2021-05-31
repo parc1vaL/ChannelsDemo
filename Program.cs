@@ -16,24 +16,18 @@ namespace Channels
                 for (int i = 1; i <= 10; i++)
                 {
                     await channel.Writer.WriteAsync(i);
+                    await Task.Delay(1000);
                 }
 
                 channel.Writer.Complete();
             });
 
-            try
+            await foreach (var item in channel.Reader.ReadAllAsync())
             {
-                while (true)
-                {
-                    var item = await channel.Reader.ReadAsync();
-                    Console.WriteLine(item);
-                    await Task.Delay(1000);
-                }
-            } 
-            catch (ChannelClosedException)
-            {
-                Console.WriteLine("Channel was closed!");
+                Console.WriteLine(item);
             }
+
+            Console.WriteLine("All done!");
         }
     }
 }
