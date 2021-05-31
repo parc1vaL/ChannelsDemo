@@ -19,23 +19,26 @@ namespace Channels
 
             var channel = Channel.CreateBounded<int>(channelOptions);
 
-            for (int i = 1; i <= 10; i++)
+            _ = Task.Run(async () =>
             {
-                await channel.Writer.WriteAsync(i);
-                Console.WriteLine($"{i} eingefügt.");
+                for (int i = 1; i <= 10; i++)
+                {
+                    await channel.Writer.WriteAsync(i);
+                    Console.WriteLine($"IN: {i}");
 
-                // Weitere Schreib-Operationen:
-                // var success = channel.Writer.TryComplete(); // Wirft keine Exception, wenn der Channel bereits als abgeschlossen markiert ist.
-                // var success = channel.Writer.TryWrite(i); // Synchrones Schreiben - Liefert false, falls keine Kapazität frei ist (falls BoundedChannelFullMode.Wait) oder der Channel als abgeschlossen markiert ist
-                // var success = await channel.Writer.WaitToWriteAsync(); // Wartet bis Kapazität frei ist, ohne zu schreiben. Liefert false, falls der Channel vorzeitig als abgeschlossen markiert wird.
-            }
-
-            channel.Writer.Complete();
+                    // Weitere Schreib-Operationen:
+                    // var success = channel.Writer.TryComplete(); // Wirft keine Exception, wenn der Channel bereits als abgeschlossen markiert ist.
+                    // var success = channel.Writer.TryWrite(i); // Synchrones Schreiben - Liefert false, falls keine Kapazität frei ist (falls BoundedChannelFullMode.Wait) oder der Channel als abgeschlossen markiert ist
+                    // var success = await channel.Writer.WaitToWriteAsync(); // Wartet bis Kapazität frei ist, ohne zu schreiben. Liefert false, falls der Channel vorzeitig als abgeschlossen markiert wird.
+                }
+                
+                channel.Writer.Complete();
+            });
 
             await foreach (var item in channel.Reader.ReadAllAsync())
             {
-                Console.WriteLine($"{item} abgeholt.");
-                await Task.Delay(1000);
+                Console.WriteLine($"OUT: {item}");
+                await Task.Delay(1500);
             }
 
             // Weitere Lese-Operationen
